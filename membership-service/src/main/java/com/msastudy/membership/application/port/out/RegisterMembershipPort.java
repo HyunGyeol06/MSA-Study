@@ -1,10 +1,11 @@
 package com.msastudy.membership.application.port.out;
 
+import com.msastudy.membership.adapter.out.persistence.MembershipJpaEntity;
 import com.msastudy.membership.domain.Membership;
 
 public interface RegisterMembershipPort {
 
-    void createMembership(
+    MembershipJpaEntity createMembership(
             Membership.MembershipName membershipName,
             Membership.MembershipEmail membershipEmail,
             Membership.MembershipAddress membershipAddress,

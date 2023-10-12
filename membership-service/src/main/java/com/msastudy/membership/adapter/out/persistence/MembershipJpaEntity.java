@@ -1,12 +1,8 @@
 package com.msastudy.membership.adapter.out.persistence;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "membership")
@@ -15,11 +11,11 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 public class MembershipJpaEntity {
 
     @Id
-    @Generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long membershipId;
 
     private String name;
@@ -32,4 +28,11 @@ public class MembershipJpaEntity {
 
     private Boolean isCorp;
 
+    public MembershipJpaEntity(String name, String address, String email, Boolean isValid, Boolean isCorp) {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.isValid = isValid;
+        this.isCorp = isCorp;
+    }
 }
