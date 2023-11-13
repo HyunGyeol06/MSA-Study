@@ -9,7 +9,7 @@ ext {
     axonVersion = "4.6.0"
 }
 
-group 'com.msastudy.membership'
+group 'com.msastudy.banking'
 version '1.0.2'
 sourceCompatibility = '17'
 

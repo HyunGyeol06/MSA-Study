@@ -1,8 +1,8 @@
 package com.msastudy.membership.adapter.in.web;
 
+import com.msastudy.common.WebAdapter;
 import com.msastudy.membership.application.port.in.RegisterMembershipCommand;
 import com.msastudy.membership.application.port.in.RegisterMembershipUseCase;
-import com.msastudy.membership.common.WebAdapter;
 import com.msastudy.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +20,8 @@ public class RegisterMembershipController {
     Membership registerMembership(@RequestBody RegisterMembershipRequest request){
         RegisterMembershipCommand command = RegisterMembershipCommand.builder()
                 .name(request.getName())
-                .address(request.getAddress())
                 .email(request.getEmail())
+                .address(request.getAddress())
                 .isValid(true)
                 .isCorp(request.getIsCorp())
                 .build();

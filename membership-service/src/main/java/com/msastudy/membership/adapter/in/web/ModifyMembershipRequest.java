@@ -1,2 +1,22 @@
-package com.msastudy.membership.adapter.in.web;public class ModifyMembershipRequest {
+package com.msastudy.membership.adapter.in.web;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ModifyMembershipRequest {
+    private String membershipId;
+
+    private String name;
+
+    private String address;
+
+    private String email;
+
+    private Boolean isValid;
+
+    private Boolean isCorp;
 }

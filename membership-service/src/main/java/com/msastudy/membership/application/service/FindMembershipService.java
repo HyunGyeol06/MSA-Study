@@ -1,11 +1,11 @@
 package com.msastudy.membership.application.service;
 
+import com.msastudy.common.UseCase;
 import com.msastudy.membership.adapter.out.persistence.MembershipJpaEntity;
 import com.msastudy.membership.adapter.out.persistence.MembershipMapper;
 import com.msastudy.membership.application.port.in.FindMembershipCommand;
 import com.msastudy.membership.application.port.in.FindMembershipUseCase;
 import com.msastudy.membership.application.port.out.FindMembershipPort;
-import com.msastudy.membership.common.UseCase;
 import com.msastudy.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 

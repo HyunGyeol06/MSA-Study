@@ -1,2 +1,14 @@
-package com.msastudy.banking.adapter.out.external.bank;public class GetBankAccountRequest {
+package com.msastudy.banking.adapter.out.external.bank;
+
+import lombok.Data;
+
+@Data
+public class GetBankAccountRequest {
+    private String bankName;
+    private String bankAccountNumber;
+
+    public GetBankAccountRequest(String bankName, String bankAccountNumber) {
+        this.bankName = bankName;
+        this.bankAccountNumber = bankAccountNumber;
+    }
 }

@@ -1,44 +1,25 @@
 package com.msastudy.banking.adapter.out.persistence;
 
-import com.msastudy.banking.application.port.out.RegisterMembershipPort;
-import com.msastudy.banking.domain.Membership;
+import com.msastudy.banking.application.port.out.RegisterBankAccountPort;
+import com.msastudy.banking.domain.RegisteredBankAccount;
 import com.msastudy.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class MembershipPersistenceAdapter implements RegisterMembershipPort, FindMembershipPort, ModifyMembershipPort {
+public class RegisteredBankAccountPersistenceAdapter implements RegisterBankAccountPort {
 
-    private final SpringDataMembershipRepository membershipRepository;
+    private final SpringDataRegisteredBankAccountRepository bankAccountRepository;
 
     @Override
-    public MembershipJpaEntity createMembership(Membership.MembershipName membershipName, Membership.MembershipEmail membershipEmail, Membership.MembershipAddress membershipAddress, Membership.MembershipIsValid membershipIsValid, Membership.MembershipIsCorp membershipIsCorp) {
-        return membershipRepository.save(
-                new MembershipJpaEntity(
-                        membershipName.getNameValue(),
-                        membershipEmail.getMembershipEmail(),
-                        membershipAddress.getMembershipAddress(),
-                        membershipIsValid.getMembershipValidValue(),
-                        membershipIsCorp.getMembershipCorpValue()
+    public RegisteredBankAccountJpaEntity createRegisteredBankAccount(RegisteredBankAccount.MembershipId membershipId, RegisteredBankAccount.BankName bankName, RegisteredBankAccount.BankAccountNumber bankAccountNumber, RegisteredBankAccount.LinkedStatusValid linkedStatusValid) {
+        return bankAccountRepository.save(
+                new RegisteredBankAccountJpaEntity(
+                        membershipId.getMembershipId(),
+                        bankName.getBankName(),
+                        bankAccountNumber.getBankAccountNumber(),
+                        linkedStatusValid.getLinkedStatusValid()
                 )
         );
-    }
-
-    @Override
-    public MembershipJpaEntity findMembership(Membership.MembershipId membershipId) {
-        return membershipRepository.getById(Long.parseLong(membershipId.getMembershipId()));
-    }
-
-    @Override
-    public MembershipJpaEntity modifyMembership(Membership.MembershipId membershipId, Membership.MembershipName membershipName, Membership.MembershipEmail membershipEmail, Membership.MembershipAddress membershipAddress, Membership.MembershipIsValid membershipIsValid, Membership.MembershipIsCorp membershipIsCorp) {
-        MembershipJpaEntity entity = membershipRepository.getById(Long.parseLong(membershipId.getMembershipId()));
-        entity.setName(membershipName.getNameValue());
-        entity.setAddress(membershipAddress.getMembershipAddress());
-        entity.setEmail(membershipEmail.getMembershipEmail());
-        entity.setIsValid(membershipIsValid.getMembershipValidValue());
-        entity.setIsCorp(membershipIsCorp.getMembershipCorpValue());
-
-
-        return membershipRepository.save(entity);
     }
 }

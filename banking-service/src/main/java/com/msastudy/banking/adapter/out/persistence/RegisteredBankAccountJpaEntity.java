@@ -5,34 +5,32 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "membership")
+@Table(name = "registered_banking_account")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 //@NoArgsConstructor
-public class MembershipJpaEntity {
+public class RegisteredBankAccountJpaEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long membershipId;
+    private Long registeredBankAccountId;
 
-    private String name;
+    private String membershipId;
 
-    private String address;
+    private String bankName;
 
-    private String email;
+    private String bankAccountNumber;
 
-    private Boolean isValid;
+    private Boolean linkedStatusValid;
 
-    private Boolean isCorp;
-
-    public MembershipJpaEntity(String name, String address, String email, Boolean isValid, Boolean isCorp) {
-        this.name = name;
-        this.address = address;
-        this.email = email;
-        this.isValid = isValid;
-        this.isCorp = isCorp;
+    public RegisteredBankAccountJpaEntity(String membershipId, String bankName, String bankAccountNumber, Boolean linkedStatusValid) {
+        this.membershipId = membershipId;
+        this.bankName = bankName;
+        this.bankAccountNumber = bankAccountNumber;
+        this.linkedStatusValid = linkedStatusValid;
     }
 }

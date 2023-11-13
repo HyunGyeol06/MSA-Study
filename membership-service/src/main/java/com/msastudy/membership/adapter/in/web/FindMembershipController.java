@@ -1,5 +1,6 @@
 package com.msastudy.membership.adapter.in.web;
 
+import com.msastudy.common.WebAdapter;
 import com.msastudy.membership.application.port.in.FindMembershipCommand;
 import com.msastudy.membership.application.port.in.FindMembershipUseCase;
 import com.msastudy.membership.domain.Membership;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@WebAdapter
 @RequiredArgsConstructor
 @RestController
 public class FindMembershipController {

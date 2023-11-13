@@ -1,4 +1,4 @@
-package com.msastudy.membership.common;
+package com.msastudy.common;
 
 
 import org.springframework.core.annotation.AliasFor;

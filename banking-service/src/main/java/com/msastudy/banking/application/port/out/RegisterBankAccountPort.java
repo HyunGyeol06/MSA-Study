@@ -1,15 +1,14 @@
 package com.msastudy.banking.application.port.out;
 
 import com.msastudy.banking.adapter.out.persistence.RegisteredBankAccountJpaEntity;
-import com.msastudy.banking.domain.Membership;
+import com.msastudy.banking.domain.RegisteredBankAccount;
 
-public interface RegisterMembershipPort {
+public interface RegisterBankAccountPort {
 
-    RegisteredBankAccountJpaEntity createMembership(
-            Membership.MembershipName membershipName,
-            Membership.MembershipEmail membershipEmail,
-            Membership.MembershipAddress membershipAddress,
-            Membership.MembershipIsValid membershipIsValid,
-            Membership.MembershipIsCorp membershipIsCorp
+    RegisteredBankAccountJpaEntity createRegisteredBankAccount(
+            RegisteredBankAccount.MembershipId membershipId,
+            RegisteredBankAccount.BankName bankName,
+            RegisteredBankAccount.BankAccountNumber bankAccountNumber,
+            RegisteredBankAccount.LinkedStatusValid linkedStatusValid
     );
 }

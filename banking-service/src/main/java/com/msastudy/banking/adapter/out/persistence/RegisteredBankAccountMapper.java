@@ -1,18 +1,17 @@
 package com.msastudy.banking.adapter.out.persistence;
 
-import com.msastudy.banking.domain.Membership;
+import com.msastudy.banking.domain.RegisteredBankAccount;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MembershipMapper {
-    public Membership mapToDomainEntity(MembershipJpaEntity membershipJpaEntity) {
-        return Membership.generateMember(
-                new Membership.MembershipId(membershipJpaEntity.getMembershipId()+""),
-                new Membership.MembershipName(membershipJpaEntity.getName()),
-                new Membership.MembershipEmail(membershipJpaEntity.getEmail()),
-                new Membership.MembershipAddress(membershipJpaEntity.getAddress()),
-                new Membership.MembershipIsValid(membershipJpaEntity.getIsValid()),
-                new Membership.MembershipIsCorp(membershipJpaEntity.getIsCorp())
+public class RegisteredBankAccountMapper {
+    public RegisteredBankAccount mapToDomainEntity(RegisteredBankAccountJpaEntity registeredBankAccountJpaEntity) {
+        return RegisteredBankAccount.generateRegisteredBankAccount(
+                new RegisteredBankAccount.RegisteredBankAccountId(registeredBankAccountJpaEntity.getRegisteredBankAccountId()+""),
+                new RegisteredBankAccount.MembershipId(registeredBankAccountJpaEntity.getMembershipId()),
+                new RegisteredBankAccount.BankName(registeredBankAccountJpaEntity.getBankName()),
+                new RegisteredBankAccount.BankAccountNumber(registeredBankAccountJpaEntity.getBankAccountNumber()),
+                new RegisteredBankAccount.LinkedStatusValid(registeredBankAccountJpaEntity.getLinkedStatusValid())
         );
     }
 }

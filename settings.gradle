@@ -1,3 +1,4 @@
-
-rootProject.name = "MSA-Study"
-include("membership-service")
+rootProject.name = "msa-study"
+include 'membership-service'
+include 'common'
+include 'banking-service'

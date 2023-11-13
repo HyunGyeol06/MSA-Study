@@ -5,8 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class BankAccount {
-    private String bankName;
-    private String bankAccountNumber;
-    private Boolean isValid;
+public class FirmbankingResult {
+    private int resultCode; //0 성공, 1 실패
+
 }

@@ -1,9 +1,9 @@
 package com.msastudy.banking.adapter.in.web;
 
-import com.msastudy.banking.application.port.in.RegisterMembershipCommand;
-import com.msastudy.banking.application.port.in.RegisterMembershipUseCase;
+import com.msastudy.banking.application.port.in.RegisterBankAccountCommand;
+import com.msastudy.banking.application.port.in.RegisterBankAccountUseCase;
+import com.msastudy.banking.domain.RegisteredBankAccount;
 import com.msastudy.common.WebAdapter;
-import com.msastudy.banking.domain.Membership;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,20 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 @WebAdapter
 @RestController
 @RequiredArgsConstructor
-public class RegisterMembershipController {
+public class RegisterBankAccountController {
 
-    private final RegisterMembershipUseCase registerMembershipUseCase;
+    private final RegisterBankAccountUseCase registerBankAccountUseCase;
 
     @PostMapping(path = "/membership/register")
-    Membership registerMembership(@RequestBody RegisterMembershipRequest request){
-        RegisterMembershipCommand command = RegisterMembershipCommand.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .address(request.getAddress())
-                .isValid(true)
-                .isCorp(request.getIsCorp())
+    RegisteredBankAccount registerMembership(@RequestBody RegisterBankAccountRequest request){
+        RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
+                .membershipId(request.getMembershipId())
+                .bankName(request.getBankName())
+                .bankAccountNumber(request.getBankAccountNumber())
+                .isValid(request.getIsValid())
                 .build();
 
-        return registerMembershipUseCase.registerMembership(command);
+        RegisteredBankAccount registeredBankAccount =
+                registerBankAccountUseCase.registerBankAccount(command);
+        if (registeredBankAccount == null) {
+            //TODo: Error Handling
+            return null;
+        }
+
+        return registeredBankAccount;
     }
 }

@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterBankAccountRequest {
+public class RequestFirmbankingRequest {
+
     private String membershipId;
-    private String bankName;
-    private String bankAccountNumber;
-    private Boolean isValid;
+    private String fromBankAccountNumber;
+    private String toBankName;
+    private String toBankAccountNumber;
+    private Integer moneyAmount; //원단위
+
 }
