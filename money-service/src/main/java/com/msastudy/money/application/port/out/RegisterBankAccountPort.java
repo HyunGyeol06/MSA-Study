@@ -1,4 +1,4 @@
-package com.msastudy.banking.application.port.out;
+package com.msastudy.money.application.port.out;
 
 import com.msastudy.banking.adapter.out.persistence.RegisteredBankAccountJpaEntity;
 import com.msastudy.banking.domain.RegisteredBankAccount;

@@ -2,6 +2,9 @@ package com.msastudy.money.adapter.in.web;
 
 
 import com.msastudy.common.WebAdapter;
+import com.msastudy.money.application.port.in.IncreaseMoneyRequestCommand;
+import com.msastudy.money.application.port.in.IncreaseMoneyRequestUseCase;
+import com.msastudy.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,24 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RequestMoneyChangingController {
 
-    private final RegisterBankAccountUseCase registerBankAccountUseCase;
+    private final IncreaseMoneyRequestUseCase increaseMoneyRequestUseCase;
 
-    @PostMapping(path = "/membership/register")
-    RegisteredBankAccount registerMembership(@RequestBody RegisterBankAccountRequest request){
-        RegisterBankAccountCommand command = RegisterBankAccountCommand.builder()
-                .membershipId(request.getMembershipId())
-                .bankName(request.getBankName())
-                .bankAccountNumber(request.getBankAccountNumber())
-                .isValid(request.getIsValid())
+    @PostMapping(path = "/money/increase")
+    MoneyChangingResultDetail increaseMoney(@RequestBody IncreaseMoneyChangingRequest request){
+        IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand.builder()
+                .membershipId(request.getTargetMembershipId())
+                .amount(request.getAmount())
                 .build();
 
-        RegisteredBankAccount registeredBankAccount =
-                registerBankAccountUseCase.registerBankAccount(command);
-        if (registeredBankAccount == null) {
-            //TODo: Error Handling
-            return null;
-        }
+        MoneyChangingRequest moneyChangingRequest =
 
-        return registeredBankAccount;
+        return null;
+    }
+
+    @PostMapping(path = "/money/decrease")
+    MoneyChangingResultDetail decreaseMoney(@RequestBody DecreaseMoneyChangingRequest request){
+//
+//        return increaseMoneyRequestUseCase.;
+
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.msastudy.banking.adapter.out.persistence;
+package com.msastudy.money.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

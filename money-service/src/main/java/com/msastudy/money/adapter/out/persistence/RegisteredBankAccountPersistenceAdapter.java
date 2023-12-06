@@ -1,4 +1,4 @@
-package com.msastudy.banking.adapter.out.persistence;
+package com.msastudy.money.adapter.out.persistence;
 
 import com.msastudy.banking.application.port.out.RegisterBankAccountPort;
 import com.msastudy.banking.domain.RegisteredBankAccount;

@@ -1,8 +1,4 @@
-package com.msastudy.banking.adapter.out.persistence;
-
-import lombok.*;
-
-import javax.persistence.*;
+package com.msastudy.money.adapter.out.persistence;
 
 @Entity
 @Table(name = "registered_banking_account")
