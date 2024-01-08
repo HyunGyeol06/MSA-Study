@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 public class IncreaseMoneyRequestCommand extends SelfValidating<IncreaseMoneyRequestCommand> {
 
     @NotNull
-    private final String membershipId;
+    private final String targetMembershipId;
 
     @NotNull
     private final int amount;
 
-    public IncreaseMoneyRequestCommand(String membershipId, int amount) {
-        this.membershipId = membershipId;
+    public IncreaseMoneyRequestCommand(String targetMembershipId, int amount) {
+        this.targetMembershipId = targetMembershipId;
         this.amount = amount;
 
         this.validateSelf();

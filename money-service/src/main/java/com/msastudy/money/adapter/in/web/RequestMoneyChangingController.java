@@ -18,22 +18,29 @@ public class RequestMoneyChangingController {
     private final IncreaseMoneyRequestUseCase increaseMoneyRequestUseCase;
 
     @PostMapping(path = "/money/increase")
-    MoneyChangingResultDetail increaseMoney(@RequestBody IncreaseMoneyChangingRequest request){
+    MoneyChangingResultDetail increaseMoneyChangingRequest(@RequestBody IncreaseMoneyChangingRequest request){
         IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand.builder()
-                .membershipId(request.getTargetMembershipId())
+                .targetMembershipId(request.getTargetMembershipId())
                 .amount(request.getAmount())
                 .build();
 
-        MoneyChangingRequest moneyChangingRequest =
+        MoneyChangingRequest moneyChangingRequest = increaseMoneyRequestUseCase.registerBankAccount(command);
 
-        return null;
+        MoneyChangingResultDetail resultDetail = new MoneyChangingResultDetail(
+                moneyChangingRequest.getMoneyChangingRequestId(),
+                0,
+                0,
+                moneyChangingRequest.getChangingMoneyAmount()
+        );
+
+        return resultDetail;
     }
 
-    @PostMapping(path = "/money/decrease")
-    MoneyChangingResultDetail decreaseMoney(@RequestBody DecreaseMoneyChangingRequest request){
+//    @PostMapping(path = "/money/decrease")
+//    MoneyChangingResultDetail decreaseMoney(@RequestBody DecreaseMoneyChangingRequest request){
+////
+////        return increaseMoneyRequestUseCase.;
 //
-//        return increaseMoneyRequestUseCase.;
-
-        return null;
-    }
+//        return null;
+//    }
 }

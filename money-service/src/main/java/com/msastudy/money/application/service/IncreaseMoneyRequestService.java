@@ -1,45 +1,50 @@
 package com.msastudy.money.application.service;
 
-import com.msastudy.banking.adapter.out.external.bank.BankAccount;
-import com.msastudy.banking.adapter.out.external.bank.GetBankAccountRequest;
-import com.msastudy.banking.adapter.out.persistence.RegisteredBankAccountJpaEntity;
-import com.msastudy.banking.adapter.out.persistence.RegisteredBankAccountMapper;
-import com.msastudy.banking.application.port.in.RegisterBankAccountCommand;
-import com.msastudy.banking.application.port.in.RegisterBankAccountUseCase;
-import com.msastudy.banking.application.port.out.RegisterBankAccountPort;
-import com.msastudy.banking.application.port.out.RequestBankAccountInfoPort;
-import com.msastudy.banking.domain.RegisteredBankAccount;
 import com.msastudy.common.UseCase;
+import com.msastudy.money.adapter.in.web.MoneyChangingResultDetailMapper;
+import com.msastudy.money.adapter.out.persistence.MemberMoneyJpaEntity;
+import com.msastudy.money.adapter.out.persistence.MoneyChangingRequestMapper;
+import com.msastudy.money.application.port.in.IncreaseMoneyRequestCommand;
+import com.msastudy.money.application.port.in.IncreaseMoneyRequestUseCase;
+import com.msastudy.money.application.port.out.IncreaseMoneyPort;
+import com.msastudy.money.domain.MemberMoney;
+import com.msastudy.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional
 @UseCase
-public class IncreaseMoneyRequestService implements RegisterBankAccountUseCase {
+public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase {
 
-    private final RegisterBankAccountPort registerBankAccountPort;
-    private final RegisteredBankAccountMapper registeredBankAccountMapper;
 
-    private final RequestBankAccountInfoPort requestBankAccountInfoPort;
+    private final IncreaseMoneyPort increaseMoneyPort;
+
+    private final MoneyChangingRequestMapper mapper;
+
     @Override
-    public RegisteredBankAccount registerBankAccount(RegisterBankAccountCommand command) {
+    public MoneyChangingRequest registerBankAccount(IncreaseMoneyRequestCommand command) {
 
-        BankAccount accountInfo = requestBankAccountInfoPort.getBankAccountInfo(new GetBankAccountRequest(command.getBankName(), command.getBankAccountNumber()));
-        Boolean accountIsValid = accountInfo.getIsValid();
+        MemberMoneyJpaEntity memberMoneyJpaEntity = increaseMoneyPort.increaseMoney(
+                new MemberMoney.MembershipId(command.getTargetMembershipId()),
+                command.getAmount()
+        );
 
-        if (accountIsValid) {
-            RegisteredBankAccountJpaEntity jpaEntity = registerBankAccountPort.createRegisteredBankAccount(
-                    new RegisteredBankAccount.MembershipId(command.getMembershipId()),
-                    new RegisteredBankAccount.BankName(command.getBankName()),
-                    new RegisteredBankAccount.BankAccountNumber(command.getBankAccountNumber()),
-                    new RegisteredBankAccount.LinkedStatusValid(command.getIsValid())
+        if (memberMoneyJpaEntity != null) {
+            return mapper.mapToDomainEntity(increaseMoneyPort.createMoneyChangingRequest(
+                    new MoneyChangingRequest.TargetMemberShipId(command.getTargetMembershipId()),
+                    new MoneyChangingRequest.ChangingTypeValue(1),
+                    new MoneyChangingRequest.ChangingMoneyAmount(command.getAmount()),
+                    new MoneyChangingRequest.ChangingMoneyStatusValue(1),
+                    new MoneyChangingRequest.Uuid(UUID.randomUUID())
+                )
             );
-            return registeredBankAccountMapper.mapToDomainEntity(jpaEntity);
         } else {
             return null;
         }
+
 
     }
 }

@@ -10,7 +10,7 @@ services:
       - ./db/initdb.d:/docker-entrypoint-initdb.d
     env_file: .env
     ports:
-      - "8081:3306"
+      - "8084:3306"
     environment:
       - TZ=Asia/Seoul
       - MYSQL_ROOT_PASSWORD=rootpassword
@@ -38,6 +38,21 @@ services:
       - msastudy_network
     ports:
       - "8083:8080"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msa_study?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mysqluser
+      - SPRING_DATASOURCE_PASSWORD=mysqlpw
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+
+  money-service:
+    image: msa-study-money-service:1.0.2
+    networks:
+      - msastudy_network
+    ports:
+      - "8085:8080"
     depends_on:
       - mysql
     environment:

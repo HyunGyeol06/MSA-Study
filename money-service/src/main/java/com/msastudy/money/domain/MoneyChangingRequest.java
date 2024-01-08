@@ -12,29 +12,18 @@ public class MoneyChangingRequest {
 
     @Getter private final String targetMemberShipId;
 
-    @Getter private final ChangingType changingType; //enum
+    @Getter private final int changingType; //enum
 
-    private enum ChangingType {
-        INCREASING,
-        DECREASING
-    }
 
 
     @Getter private final int changingMoneyAmount;
 
-    @Getter private final ChangingMoneyStatus changingMoneyStatus; // enum
-
-    private enum ChangingMoneyStatus {
-        REQUESTED,
-        SUCCEEDED,
-        FAILED,
-        CANCELED
-    }
+    @Getter private final int changingMoneyStatus; // enum
 
 
     @Getter private final UUID uuid;
 
-    @Getter private final Date createdAt;
+    //@Getter private final Date createdAt;
 
     public static MoneyChangingRequest generateMoneyChangingRequest(
             MoneyChangingRequest.MoneyChangingRequestId moneyChangingRequestId,
@@ -42,8 +31,7 @@ public class MoneyChangingRequest {
             MoneyChangingRequest.ChangingTypeValue changingType,
             MoneyChangingRequest.ChangingMoneyAmount changingMoneyAmount,
             MoneyChangingRequest.ChangingMoneyStatusValue changingMoneyStatus,
-            MoneyChangingRequest.Uuid uuid,
-            MoneyChangingRequest.CreatedAt createdAt
+            MoneyChangingRequest.Uuid uuid
 
     ) {
         return new MoneyChangingRequest(
@@ -52,8 +40,7 @@ public class MoneyChangingRequest {
                 changingType.getChangingType(),
                 changingMoneyAmount.getChangingMoneyAmount(),
                 changingMoneyStatus.getChangingMoneyStatus(),
-                uuid.getUuid(),
-                createdAt.getCreatedAt()
+                uuid.getUuid()
         );
     }
 
@@ -76,10 +63,10 @@ public class MoneyChangingRequest {
 
     @Value
     public static class ChangingTypeValue {
-        public ChangingTypeValue(ChangingType value) {
+        public ChangingTypeValue(int value) {
             this.changingType = value;
         }
-        ChangingType changingType;
+        int changingType;
     }
 
     @Value
@@ -93,10 +80,10 @@ public class MoneyChangingRequest {
 
     @Value
     public static class ChangingMoneyStatusValue {
-        public ChangingMoneyStatusValue(ChangingMoneyStatus value) {
+        public ChangingMoneyStatusValue(int value) {
             this.changingMoneyStatus = value;
         }
-        ChangingMoneyStatus changingMoneyStatus;
+        int changingMoneyStatus;
     }
 
     @Value
