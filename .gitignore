@@ -37,4 +37,7 @@ out/
 .vscode/
 
 .env
-db/
+
+/*/build/
+axon-server-se/*/*
+db/data/*

@@ -1,0 +1,51 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.palantir.docker' version '0.25.0'
+}
+
+ext {
+    axonVersion = "4.6.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+group = 'com.msapay.task-consumer'
+version = '1.0.0'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.jetbrains:annotations:24.0.1'
+    implementation project(path: ':common')
+
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    testImplementation 'junit:junit:4.13.1'
+
+    //runtimeOnly 'com.h2database:h2'
+    //runtimeOnly 'mysql:mysql-connector-java'
+}
+
+docker {
+    println(tasks.bootJar.outputs.files)
+
+    //이미지 이름
+    name rootProject.name+"-"+project.name+":"+ version
+
+    //Dockerfile 지정
+    dockerfile file("../Dockerfile")
+
+    //Dockerfile 에 복사할 파일
+    files tasks.bootJar.outputs.files
+
+    //Dockerfile 에 전달할 인자
+    buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+}

@@ -9,8 +9,8 @@ ext {
     axonVersion = "4.6.0"
 }
 
-group 'com.msastudy.money'
-version '1.0.2'
+group 'com.msapay.money'
+version '1.0.3'
 sourceCompatibility = '17'
 
 configurations {
@@ -30,10 +30,12 @@ repositories {
 dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation 'com.tngtech.archunit:archunit:1.0.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -41,15 +43,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.jetbrains:annotations:24.0.1'
     implementation project(path: ':common')
-
-
     testImplementation 'junit:junit:4.13.1'
 
     //runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
 
-
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
+
+    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
+    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
 }
 
 test {

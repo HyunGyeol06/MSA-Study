@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS msa_study;
+USE msa_study;

@@ -1,5 +1,10 @@
-rootProject.name = "msa-study"
+rootProject.name = "msapay"
 include 'membership-service'
 include 'common'
 include 'banking-service'
 include 'money-service'
+include 'logging-consumer'
+include 'logging-consumer'
+include 'task-consumer'
+include 'remittance-service'
+

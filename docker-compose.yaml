@@ -1,16 +1,29 @@
 version: '3'
 services:
+  axon-server:
+    container_name: axon-server
+    image: axoniq/axonserver:4.6.3-jdk-17-dev
+    networks:
+      - msapay_network
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+    volumes:
+      - axonserver-data:/axonserver/data
+      - axonserver-events:/axonserver/events
+      - axonserver-config:/axonserver/config:ro
+
   mysql:
     image: mysql:8.0
     networks:
-      - msastudy_network
+      - msapay_network
     volumes:
       - ./db/conf.d:/etc/mysql/conf.d
       - ./db/data:/var/lib/mysql
       - ./db/initdb.d:/docker-entrypoint-initdb.d
     env_file: .env
     ports:
-      - "8084:3306"
+      - "8086:3306"
     environment:
       - TZ=Asia/Seoul
       - MYSQL_ROOT_PASSWORD=rootpassword
@@ -18,54 +31,76 @@ services:
       - MYSQL_PASSWORD=mysqlpw
 
   membership-service:
-    image: msa-study-membership-service:1.0.2
+    image: msapay-membership-service:1.0.3
     networks:
-      - msastudy_network
+      - msapay_network
     ports:
       - "8082:8080"
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msa_study?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=create-drop
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=msapay.logging.out.stdout
 
   banking-service:
-    image: msa-study-banking-service:1.0.2
+    image: msapay-banking-service:1.0.3
     networks:
-      - msastudy_network
+      - msapay_network
     ports:
       - "8083:8080"
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msa_study?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=create-drop
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=msapay.logging.out.stdout
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
 
   money-service:
-    image: msa-study-money-service:1.0.2
+    image: msapay-money-service:1.0.3
     networks:
-      - msastudy_network
+      - msapay_network
     ports:
-      - "8085:8080"
+      - "8084:8080"
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msa_study?useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=create-drop
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=msapay.logging.out.stdout
+      - TASK_TOPIC=msapay.task.topic
+      - TASK_RESULT_TOPIC=msapay.task.result.topic
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
 
   zookeeper:
     image: 'arm64v8/zookeeper:3.8'
     networks:
-      - msastudy_network
+      - msapay_network
     ports:
       - '2181:2181'
     environment:
@@ -74,9 +109,9 @@ services:
       - ZOO_TLS_QUORUM_CLIENT_AUTH=none
 
   kafka:
-    image: 'docker.io/bitnami/kafka:3.5'
+    image: 'bitnami/kafka:3.5'
     networks:
-      - msastudy_network
+      - msapay_network
     ports:
       - '9092:9092'
     environment:
@@ -87,7 +122,6 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=LC://kafka:29092,LX://${DOCKER_HOST_IP:-localhost}:9092
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=LC:PLAINTEXT,LX:PLAINTEXT
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=LC
-      #- BITNAMI_DEBUG=true
     depends_on:
       - zookeeper
 
@@ -95,7 +129,7 @@ services:
     image: provectuslabs/kafka-ui
     container_name: kafka-ui
     networks:
-      - msastudy_network
+      - msapay_network
     ports:
       - "8989:8080"
     restart: always
@@ -107,6 +141,79 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
 
+  logging-consumer:
+    image: msapay-logging-consumer:1.0.0
+    networks:
+      - msapay_network
+    restart: always
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=msapay.logging.out.stdout
+
+  task-consumer:
+    image: msapay-task-consumer:1.0.0
+    networks:
+      - msapay_network
+    restart: always
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=msapay.logging.out.stdout
+      - TASK_TOPIC=msapay.task.topic
+      - TASK_RESULT_TOPIC=msapay.task.result.topic
+  remittance-service:
+    image: msapay-remittance-service:1.0.0
+    networks:
+      - msapay_network
+    ports:
+      - "8085:8080"
+    restart: always
+    depends_on:
+      - kafka
+      - mysql
+    environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msa_study?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mysqluser
+      - SPRING_DATASOURCE_PASSWORD=mysqlpw
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=fastcampus.logging.out.stdout
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_BANKING_URL=http://banking-service:8080
+      - SERVICE_MONEY_URL=http://money-service:8080
+
+volumes:
+  axonserver-data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/axon-server-se/data
+  axonserver-events:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/axon-server-se/events
+  axonserver-config:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/axon-server-se/config
+
+
+
 networks:
-  msastudy_network:
+  msapay_network:
     driver: bridge

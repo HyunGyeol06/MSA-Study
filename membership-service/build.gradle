@@ -9,8 +9,8 @@ ext {
     axonVersion = "4.6.0"
 }
 
-group 'com.msastudy.membership'
-version '1.0.2'
+group 'com.msapay.membership'
+version '1.0.3'
 sourceCompatibility = '17'
 
 configurations {
@@ -30,6 +30,7 @@ repositories {
 dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation 'com.tngtech.archunit:archunit:1.0.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
