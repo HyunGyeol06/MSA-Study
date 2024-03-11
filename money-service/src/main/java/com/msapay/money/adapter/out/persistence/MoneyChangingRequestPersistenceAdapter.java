@@ -1,6 +1,8 @@
 package com.msapay.money.adapter.out.persistence;
 
 import com.msapay.common.PersistenceAdapter;
+import com.msapay.money.application.port.in.CreateMemberPort;
+import com.msapay.money.application.port.in.GetMemberMoneyPort;
 import com.msapay.money.application.port.out.IncreaseMoneyPort;
 import com.msapay.money.domain.MemberMoney;
 import com.msapay.money.domain.MoneyChangingRequest;
@@ -11,7 +13,7 @@ import java.util.List;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class MoneyChangingRequestPersistenceAdapter implements IncreaseMoneyPort {
+public class MoneyChangingRequestPersistenceAdapter implements IncreaseMoneyPort, CreateMemberPort, GetMemberMoneyPort {
 
     private final SpringDataMoneyChangingRepository moneyChangingRepository;
 
@@ -43,12 +45,45 @@ public class MoneyChangingRequestPersistenceAdapter implements IncreaseMoneyPort
         } catch (Exception e) {
             entity = new MemberMoneyJpaEntity(
                     Long.parseLong(membershipId.getMembershipId()),
-                    increaseMoneyAmount
+                    increaseMoneyAmount,
+                    ""
             );
             memberMoneyRepository.save(entity);
             return entity;
         }
 
 
+    }
+
+    @Override
+    public void createMemberMoney(MemberMoney.MembershipId membershipId, MemberMoney.MoneyAggregateIdentifier aggregateIdentifier) {
+        MemberMoneyJpaEntity entity = new MemberMoneyJpaEntity(
+                Long.parseLong(membershipId.getMembershipId()),
+                0,
+                aggregateIdentifier.getAggregateIdentifier()
+
+        );
+        memberMoneyRepository.save(entity);
+    }
+
+    @Override
+    public MemberMoneyJpaEntity getMemberMoney(MemberMoney.MembershipId membershipId) {
+        MemberMoneyJpaEntity entity;
+
+        List<MemberMoneyJpaEntity> entityList = memberMoneyRepository.findByMembershipId(Long.parseLong(membershipId.getMembershipId()));
+        if(entityList.size() == 0) {
+            entity = new MemberMoneyJpaEntity(
+                    Long.parseLong(membershipId.getMembershipId()),
+                    0,
+                    ""
+            );
+            entity = memberMoneyRepository.save(entity);
+            return entity;
+        }
+
+
+
+
+        return entity = entityList.get(0);
     }
 }

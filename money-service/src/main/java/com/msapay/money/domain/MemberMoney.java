@@ -18,7 +18,7 @@ public class MemberMoney {
     public static MemberMoney generateMemberMoney(
         MemberMoneyId memberMoneyId,
         MembershipId membershipId,
-        Balance balance
+        MoneyBalance balance
     ){
         return new MemberMoney(
                 memberMoneyId.memberMoneyId,
@@ -44,11 +44,19 @@ public class MemberMoney {
     }
 
     @Value
-    public static class Balance {
-        public Balance(int value) {
+    public static class MoneyBalance {
+        public MoneyBalance(int value) {
             this.balance = value;
         }
-        int balance;
+        int balance ;
+    }
+
+    @Value
+    public static class MoneyAggregateIdentifier {
+        public MoneyAggregateIdentifier(String aggregateIdentifier) {
+            this.aggregateIdentifier = aggregateIdentifier;
+        }
+        String aggregateIdentifier ;
     }
 
 }

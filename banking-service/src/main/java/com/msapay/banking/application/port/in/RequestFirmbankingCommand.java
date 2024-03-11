@@ -24,13 +24,13 @@ public class RequestFirmbankingCommand extends SelfValidating<RequestFirmbanking
     @NotNull
     private final String toBankAccountNumber;
 
-    private final int moneyAccount;
+    private final int moneyAmount;
 
-    public RequestFirmbankingCommand(String fromBankName, String fromBankAccountNumber, String toBankName, String toBankAccountNumber, int moneyAccount) {
+    public RequestFirmbankingCommand(String fromBankName, String fromBankAccountNumber, String toBankName, String toBankAccountNumber, int moneyAmount) {
         this.fromBankName = fromBankName;
         this.fromBankAccountNumber = fromBankAccountNumber;
         this.toBankName = toBankName;
         this.toBankAccountNumber = toBankAccountNumber;
-        this.moneyAccount = moneyAccount;
+        this.moneyAmount = moneyAmount;
     }
 }

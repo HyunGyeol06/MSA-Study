@@ -13,11 +13,14 @@ import javax.validation.constraints.NotNull;
 public class MemberMoneyCreatedCommand extends SelfValidating<MemberMoneyCreatedCommand> {
 
     @NotNull
-    private final String membershipId;
+    private String membershipId;
 
     public MemberMoneyCreatedCommand(@NotNull String membershipId) {
         this.membershipId = membershipId;
 
         this.validateSelf();
+    }
+
+    public MemberMoneyCreatedCommand() {
     }
 }

@@ -20,4 +20,6 @@ public class CreateMemberMoneyCommand extends SelfValidating<CreateMemberMoneyCo
 
         this.validateSelf();
     }
+
+
 }

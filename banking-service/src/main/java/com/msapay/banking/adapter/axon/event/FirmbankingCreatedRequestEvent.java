@@ -1,18 +1,22 @@
-package com.msapay.banking.adapter.in.web;
+package com.msapay.banking.adapter.axon.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestFirmbankingRequest {
+@Data
+public class FirmbankingCreatedRequestEvent {
 
     private String fromBankName;
     private String fromBankAccountNumber;
+
     private String toBankName;
     private String toBankAccountNumber;
-    private Integer moneyAmount; //원단위
+
+    private int moneyAmount;
 
 }
