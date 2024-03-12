@@ -7,6 +7,7 @@ import com.msapay.money.application.port.out.IncreaseMoneyPort;
 import com.msapay.money.domain.MemberMoney;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Saga
 @NoArgsConstructor
+@Log4j2
 public class MoneyRechargeSaga {
 
     @NonNull
@@ -32,7 +34,7 @@ public class MoneyRechargeSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "rechargingRequestId")
     public void handle(RechargingRequestCreatedEvent event){
-        System.out.println("RechargingRequestCreatedEvent Start saga");
+        log.info("RechargingRequestCreatedEvent Start saga");
 
         String checkRegisteredBankAccountId = UUID.randomUUID().toString();
         SagaLifecycle.associateWith("checkRegisteredBankAccountId", checkRegisteredBankAccountId);
@@ -53,9 +55,9 @@ public class MoneyRechargeSaga {
                 (result, throwable) -> {
                     if (throwable != null) {
                         throwable.printStackTrace();
-                        System.out.println("CheckRegisteredBankAccountCommand Command failed");
+                        log.info("CheckRegisteredBankAccountCommand Command failed");
                     } else {
-                        System.out.println("CheckRegisteredBankAccountCommand Command success");
+                        log.info("CheckRegisteredBankAccountCommand Command success");
                     }
                 }
         );
@@ -63,12 +65,12 @@ public class MoneyRechargeSaga {
 
     @SagaEventHandler(associationProperty = "checkRegisteredBankAccountId")
     public void handle(CheckedRegisteredBankAccountEvent event) {
-        System.out.println("CheckedRegisteredBankAccountEvent saga: " + event.toString());
+        log.info("CheckedRegisteredBankAccountEvent saga: " + event.toString());
         boolean status = event.isChecked();
         if (status) {
-            System.out.println("CheckedRegisteredBankAccountEvent event success");
+            log.info("CheckedRegisteredBankAccountEvent event success");
         } else {
-            System.out.println("CheckedRegisteredBankAccountEvent event Failed");
+            log.info("CheckedRegisteredBankAccountEvent event Failed");
         }
 
         String requestFirmbankingId = UUID.randomUUID().toString();
@@ -90,9 +92,9 @@ public class MoneyRechargeSaga {
                 (result, throwable) -> {
                     if (throwable != null) {
                         throwable.printStackTrace();
-                        System.out.println("RequestFirmbankingCommand Command failed");
+                        log.info("RequestFirmbankingCommand Command failed");
                     } else {
-                        System.out.println("RequestFirmbankingCommand Command success");
+                        log.info("RequestFirmbankingCommand Command success");
                     }
                 }
         );
@@ -100,12 +102,12 @@ public class MoneyRechargeSaga {
 
     @SagaEventHandler(associationProperty = "requestFirmbankingId")
     public void handle(RequestFirmbankingFinishedEvent event, IncreaseMoneyPort increaseMoneyPort) {
-        System.out.println("RequestFirmbankingFinishedEvent saga: " + event.toString());
+        log.info("RequestFirmbankingFinishedEvent saga: " + event.toString());
         boolean status = event.getStatus() == 0;
         if (status) {
-            System.out.println("RequestFirmbankingFinishedEvent event success");
+            log.info("RequestFirmbankingFinishedEvent event success");
         } else {
-            System.out.println("RequestFirmbankingFinishedEvent event Failed");
+            log.info("RequestFirmbankingFinishedEvent event Failed");
         }
 
         // DB Update 명령.
@@ -131,9 +133,9 @@ public class MoneyRechargeSaga {
                     (result, throwable) -> {
                         if (throwable != null) {
                             throwable.printStackTrace();
-                            System.out.println("RollbackFirmbankingRequestCommand Command failed");
+                            log.info("RollbackFirmbankingRequestCommand Command failed");
                         } else {
-                            System.out.println("Saga success : "+ result.toString());
+                            log.info("Saga success : "+ result.toString());
                             SagaLifecycle.end();
                         }
                     }
@@ -147,6 +149,6 @@ public class MoneyRechargeSaga {
     @EndSaga
     @SagaEventHandler(associationProperty = "rollbackFirmbankingId")
     public void handle(RollbackFirmbankingFinishedEvent event) {
-        System.out.println("RollbackFirmbankingFinishedEvent saga: " + event.toString());
+        log.info("RollbackFirmbankingFinishedEvent saga: " + event.toString());
     }
 }

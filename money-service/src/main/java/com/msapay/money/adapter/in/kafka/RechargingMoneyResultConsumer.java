@@ -6,6 +6,7 @@ import com.msapay.common.CountDownLatchManager;
 import com.msapay.common.LoggingProducer;
 import com.msapay.common.RechargingMoneyTask;
 import com.msapay.common.SubTask;
+import lombok.extern.log4j.Log4j2;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
+@Log4j2
 public class RechargingMoneyResultConsumer {
 
     private final KafkaConsumer<String, String> consumer;
@@ -50,7 +52,7 @@ public class RechargingMoneyResultConsumer {
                 while(true) {
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
                     for (ConsumerRecord<String, String> record : records) {
-                        System.out.println("Received message: " + record.value() + " / "+ record.value());
+                        log.info("Received message: " + record.value() + " / "+ record.value());
 
                         RechargingMoneyTask task;
 

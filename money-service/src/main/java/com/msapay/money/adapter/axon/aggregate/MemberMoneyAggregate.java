@@ -35,14 +35,14 @@ public class MemberMoneyAggregate {
 
     @CommandHandler
     public MemberMoneyAggregate(MemberMoneyCreatedCommand command) {
-        System.out.println("MemberMoneyCreatedCommand Handler");
+        log.info("MemberMoneyCreatedCommand Handler");
 
         apply(new MemberMoneyCreatedEvent(command.getMembershipId()));
     }
 
     @CommandHandler
     public String handle(@NotNull IncreaseMemberMoneyCommand command){
-        System.out.println("IncreaseMemberMoneyCommand Handler");
+        log.info("IncreaseMemberMoneyCommand Handler");
         id = command.getAggregateIdentifier();
 
         // store event
@@ -52,7 +52,7 @@ public class MemberMoneyAggregate {
 
     @CommandHandler
     public void handler(RechargingMoneyRequestCreateCommand command, GetRegisteredBankAccountPort getRegisteredBankAccountPort){
-        System.out.println("RechargingMoneyRequestCreateCommand Handler");
+        log.info("RechargingMoneyRequestCreateCommand Handler");
         id = command.getAggregateIdentifier();
 
 
@@ -74,7 +74,7 @@ public class MemberMoneyAggregate {
 
     @EventSourcingHandler
     public void on(MemberMoneyCreatedEvent event) {
-        System.out.println("MemberMoneyCreatedEvent Sourcing Handler");
+        log.info("MemberMoneyCreatedEvent Sourcing Handler");
         id = UUID.randomUUID().toString();
         membershipId = Long.parseLong(event.getMembershipId());
         balance = 0;
@@ -82,7 +82,7 @@ public class MemberMoneyAggregate {
 
     @EventSourcingHandler
     public void on(IncreaseMemberMoneyEvent event) {
-        System.out.println("IncreaseMemberMoneyEvent Sourcing Handler");
+        log.info("IncreaseMemberMoneyEvent Sourcing Handler");
         id = event.getAggregateIdentifier();
         membershipId = Long.parseLong(event.getTargetMembershipId());
         balance = event.getAmount();

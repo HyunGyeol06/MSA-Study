@@ -143,10 +143,10 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
         MemberMoneyCreatedCommand axonCommand = new MemberMoneyCreatedCommand(command.getMembershipId());
         commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
             if (throwable != null) {
-                System.out.println("throwable = " + throwable);
+                log.info("throwable = " + throwable);
                 throw new RuntimeException(throwable);
             } else{
-                System.out.println("result = " + result);
+                log.info("result = " + result);
                 createMemberMoneyPort.createMemberMoney(
                         new MemberMoney.MembershipId(command.getMembershipId()),
                         new MemberMoney.MoneyAggregateIdentifier(result.toString())
@@ -170,7 +170,7 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
                         throwable.printStackTrace();
                         throw new RuntimeException(throwable);
                     } else {
-                        System.out.println("result = " + result); // aggregateIdentifier
+                        log.info("result = " + result); // aggregateIdentifier
                     }
                 }
         );
@@ -192,7 +192,7 @@ public class IncreaseMoneyRequestService implements IncreaseMoneyRequestUseCase,
 //                        throw new RuntimeException(throwable);
 //                    } else {
 //                        // Increase money -> money incr
-//                        System.out.println("increaseMoney result = " + result);
+//                        log.info("increaseMoney result = " + result);
 //                        increaseMoneyPort.increaseMoney(
 //                                new MemberMoney.MembershipId(command.getTargetMembershipId())
 //                                , command.getAmount());
