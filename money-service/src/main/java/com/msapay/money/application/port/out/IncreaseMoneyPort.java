@@ -7,17 +7,16 @@ import com.msapay.money.domain.MemberMoney;
 import com.msapay.money.domain.MoneyChangingRequest;
 
 public interface IncreaseMoneyPort {
-
     MoneyChangingRequestJpaEntity createMoneyChangingRequest(
-            MoneyChangingRequest.TargetMemberShipId targetMemberShipId,
-            MoneyChangingRequest.ChangingTypeValue changingTypeValue,
+            MoneyChangingRequest.TargetMembershipId targetMembershipId,
+            MoneyChangingRequest.MoneyChangingType moneyChangingType,
             MoneyChangingRequest.ChangingMoneyAmount changingMoneyAmount,
-            MoneyChangingRequest.ChangingMoneyStatusValue changingMoneyStatusValue,
+            MoneyChangingRequest.MoneyChangingStatus moneyChangingStatus,
             MoneyChangingRequest.Uuid uuid
     );
 
     MemberMoneyJpaEntity increaseMoney(
-            MemberMoney.MembershipId membershipId,
+            MemberMoney.MembershipId memberId,
             int increaseMoneyAmount
     );
 }

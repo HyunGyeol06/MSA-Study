@@ -1,7 +1,7 @@
 package com.msapay.money.adapter.out.persistence;
 
 import com.msapay.common.PersistenceAdapter;
-import com.msapay.money.application.port.in.CreateMemberPort;
+import com.msapay.money.application.port.in.CreateMemberMoneyPort;
 import com.msapay.money.application.port.in.GetMemberMoneyPort;
 import com.msapay.money.application.port.out.IncreaseMoneyPort;
 import com.msapay.money.domain.MemberMoney;
@@ -10,25 +10,26 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class MoneyChangingRequestPersistenceAdapter implements IncreaseMoneyPort, CreateMemberPort, GetMemberMoneyPort {
+public class MoneyChangingRequestPersistenceAdapter implements IncreaseMoneyPort, CreateMemberMoneyPort, GetMemberMoneyPort {
 
-    private final SpringDataMoneyChangingRepository moneyChangingRepository;
+    private final SpringDataMoneyChangingRequestRepository moneyChangingRequestRepository;
 
     private final SpringDataMemberMoneyRepository memberMoneyRepository;
 
     @Override
-    public MoneyChangingRequestJpaEntity createMoneyChangingRequest(MoneyChangingRequest.TargetMemberShipId targetMemberShipId, MoneyChangingRequest.ChangingTypeValue changingTypeValue, MoneyChangingRequest.ChangingMoneyAmount changingMoneyAmount, MoneyChangingRequest.ChangingMoneyStatusValue changingMoneyStatusValue, MoneyChangingRequest.Uuid uuid) {
-        return moneyChangingRepository.save(
+    public MoneyChangingRequestJpaEntity createMoneyChangingRequest(MoneyChangingRequest.TargetMembershipId targetMembershipId, MoneyChangingRequest.MoneyChangingType moneyChangingType, MoneyChangingRequest.ChangingMoneyAmount changingMoneyAmount, MoneyChangingRequest.MoneyChangingStatus moneyChangingStatus, MoneyChangingRequest.Uuid uuid) {
+        return moneyChangingRequestRepository.save(
                 new MoneyChangingRequestJpaEntity(
-                        targetMemberShipId.getTargetMemberShipId(),
-                        changingTypeValue.getChangingType(),
+                        targetMembershipId.getTargetMembershipId(),
+                        moneyChangingType.getMoneyChangingType(),
                         changingMoneyAmount.getChangingMoneyAmount(),
                         new Timestamp(System.currentTimeMillis()),
-                        changingMoneyStatusValue.getChangingMoneyStatus(),
-                        uuid.getUuid()
+                        moneyChangingStatus.getChangingMoneyStatus(),
+                        UUID.randomUUID()
                 )
         );
     }

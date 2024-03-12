@@ -1,4 +1,4 @@
-package com.msapay.banking.adapter.out.service;
+package com.msapay.banking.application.port.out;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

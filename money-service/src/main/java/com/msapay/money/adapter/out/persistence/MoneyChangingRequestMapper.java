@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 public class MoneyChangingRequestMapper {
     public MoneyChangingRequest mapToDomainEntity(MoneyChangingRequestJpaEntity moneyChangingRequestJpaEntity) {
         return MoneyChangingRequest.generateMoneyChangingRequest(
-                new MoneyChangingRequest.MoneyChangingRequestId(moneyChangingRequestJpaEntity.getTargetMembershipId()),
-                new MoneyChangingRequest.TargetMemberShipId(moneyChangingRequestJpaEntity.getTargetMembershipId()),
-                new MoneyChangingRequest.ChangingTypeValue(moneyChangingRequestJpaEntity.getMoneyChangingType()),
+                new MoneyChangingRequest.MoneyChangingRequestId(moneyChangingRequestJpaEntity.getMoneyChangingRequestId()+""),
+                new MoneyChangingRequest.TargetMembershipId(moneyChangingRequestJpaEntity.getTargetMembershipId()),
+                new MoneyChangingRequest.MoneyChangingType(moneyChangingRequestJpaEntity.getMoneyChangingType()),
                 new MoneyChangingRequest.ChangingMoneyAmount(moneyChangingRequestJpaEntity.getMoneyAmount()),
-                new MoneyChangingRequest.ChangingMoneyStatusValue(moneyChangingRequestJpaEntity.getChangingMoneyStatus()),
-                new MoneyChangingRequest.Uuid(moneyChangingRequestJpaEntity.getUuid())
+                new MoneyChangingRequest.MoneyChangingStatus(moneyChangingRequestJpaEntity.getChangingMoneyStatus()),
+                moneyChangingRequestJpaEntity.getUuid().toString()
         );
     }
 }

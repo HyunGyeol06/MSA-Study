@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class BankAccount {
     private String bankName;
     private String bankAccountNumber;
     private Boolean isValid;
+
+    public BankAccount(String bankName, String bankAccountNumber, boolean isValid) {
+        this.bankName = bankName;
+        this.bankAccountNumber = bankAccountNumber;
+        this.isValid = isValid;
+    }
 }

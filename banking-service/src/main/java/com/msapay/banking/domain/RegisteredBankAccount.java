@@ -7,31 +7,32 @@ import lombok.Value;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegisteredBankAccount {
-
     @Getter private final String registeredBankAccountId;
 
     @Getter private final String membershipId;
 
-    @Getter private final String bankName; //enum
+    @Getter private final String bankName; // enum
 
     @Getter private final String bankAccountNumber;
 
-    @Getter private final Boolean linkedStatusValid;
+    @Getter private final boolean linkedStatusIsValid;
+    @Getter private final String aggregateIdentifier;
 
-
-    public static RegisteredBankAccount generateRegisteredBankAccount(
+    public static RegisteredBankAccount generateRegisteredBankAccount (
             RegisteredBankAccount.RegisteredBankAccountId registeredBankAccountId,
             RegisteredBankAccount.MembershipId membershipId,
             RegisteredBankAccount.BankName bankName,
             RegisteredBankAccount.BankAccountNumber bankAccountNumber,
-            RegisteredBankAccount.LinkedStatusValid linkedStatusValid
-    ) {
+            RegisteredBankAccount.LinkedStatusIsValid linkedStatusIsValid,
+            RegisteredBankAccount.AggregateIdentifier aggregateIdentifier
+    ){
         return new RegisteredBankAccount(
                 registeredBankAccountId.registeredBankAccountId,
                 membershipId.membershipId,
                 bankName.bankName,
                 bankAccountNumber.bankAccountNumber,
-                linkedStatusValid.linkedStatusValid
+                linkedStatusIsValid.linkedStatusIsValid,
+                aggregateIdentifier.getAggregateIdentifier()
         );
     }
 
@@ -40,7 +41,7 @@ public class RegisteredBankAccount {
         public RegisteredBankAccountId(String value) {
             this.registeredBankAccountId = value;
         }
-        String registeredBankAccountId;
+        String registeredBankAccountId ;
     }
 
     @Value
@@ -48,7 +49,7 @@ public class RegisteredBankAccount {
         public MembershipId(String value) {
             this.membershipId = value;
         }
-        String membershipId;
+        String membershipId ;
     }
 
     @Value
@@ -56,7 +57,7 @@ public class RegisteredBankAccount {
         public BankName(String value) {
             this.bankName = value;
         }
-        String bankName;
+        String bankName ;
     }
 
     @Value
@@ -64,16 +65,22 @@ public class RegisteredBankAccount {
         public BankAccountNumber(String value) {
             this.bankAccountNumber = value;
         }
-        String bankAccountNumber;
+        String bankAccountNumber ;
     }
 
     @Value
-    public static class LinkedStatusValid {
-        public LinkedStatusValid(Boolean value) {
-            this.linkedStatusValid = value;
+    public static class LinkedStatusIsValid {
+        public LinkedStatusIsValid(boolean value) {
+            this.linkedStatusIsValid = value;
         }
-        Boolean linkedStatusValid;
+        boolean linkedStatusIsValid ;
     }
 
-
+    @Value
+    public static class AggregateIdentifier {
+        public AggregateIdentifier(String value) {
+            this.aggregateIdentifier = value;
+        }
+        String aggregateIdentifier;
+    }
 }

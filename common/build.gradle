@@ -4,6 +4,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
+ext{
+    axonVersion = "4.6.0"
+}
+
 group 'com.msastudy.common'
 version 'unspecified'
 
@@ -22,6 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.kafka:spring-kafka'
+
+    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
+    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
 
 }
 

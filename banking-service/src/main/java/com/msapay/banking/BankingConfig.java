@@ -1,4 +1,4 @@
-package com.msapay.banking.domain;
+package com.msapay.banking;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.ComponentScan;

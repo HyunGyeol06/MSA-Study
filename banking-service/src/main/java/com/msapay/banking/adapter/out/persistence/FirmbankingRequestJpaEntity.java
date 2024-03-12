@@ -9,7 +9,6 @@ import java.util.UUID;
 @Table(name = "request_firmbanking")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class FirmbankingRequestJpaEntity {
 

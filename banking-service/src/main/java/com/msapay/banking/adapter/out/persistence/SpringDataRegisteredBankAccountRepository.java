@@ -2,6 +2,8 @@ package com.msapay.banking.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SpringDataRegisteredBankAccountRepository extends JpaRepository<RegisteredBankAccountJpaEntity, Long> {
+import java.util.List;
 
+public interface SpringDataRegisteredBankAccountRepository extends JpaRepository<RegisteredBankAccountJpaEntity, Long> {
+    List<RegisteredBankAccountJpaEntity> findByMembershipId(String membershipId);
 }

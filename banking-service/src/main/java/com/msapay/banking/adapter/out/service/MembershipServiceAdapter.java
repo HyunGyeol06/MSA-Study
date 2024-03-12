@@ -2,7 +2,7 @@ package com.msapay.banking.adapter.out.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msapay.banking.application.port.out.GetMembershipPort;
-import com.msapay.banking.application.port.out.Membership;
+import com.msapay.banking.application.port.out.MembershipStatus;
 import com.msapay.common.CommonHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class MembershipServiceAdapter implements GetMembershipPort {
             ObjectMapper mapper = new ObjectMapper();
             Membership membership = mapper.readValue(jsonResponse, Membership.class);
 
-            if (membership.getIsValid()) {
+            if (membership.isValid()) {
                 return new MembershipStatus(membership.getMembershipId(), true);
             } else {
                 return new MembershipStatus(membership.getMembershipId(), false);

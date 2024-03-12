@@ -8,15 +8,13 @@ import javax.persistence.*;
 @Table(name = "registered_banking_account")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 //@NoArgsConstructor
 public class RegisteredBankAccountJpaEntity {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long registeredBankAccountId;
 
     private String membershipId;
@@ -25,12 +23,26 @@ public class RegisteredBankAccountJpaEntity {
 
     private String bankAccountNumber;
 
-    private Boolean linkedStatusValid;
+    private boolean linkedStatusIsValid;
 
-    public RegisteredBankAccountJpaEntity(String membershipId, String bankName, String bankAccountNumber, Boolean linkedStatusValid) {
+    private String aggregateIdentifier;
+    public RegisteredBankAccountJpaEntity(String membershipId, String bankName, String bankAccountNumber, boolean linkedStatusIsValid, String aggregateIdentifier){
         this.membershipId = membershipId;
         this.bankName = bankName;
         this.bankAccountNumber = bankAccountNumber;
-        this.linkedStatusValid = linkedStatusValid;
+        this.linkedStatusIsValid = linkedStatusIsValid;
+        this.aggregateIdentifier = aggregateIdentifier;
+    }
+
+    @Override
+    public String toString() {
+        return "RegisteredBankAccountJpaEntity{" +
+                "registeredBankAccountId=" + registeredBankAccountId +
+                ", membershipId='" + membershipId + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", bankAccountNumber='" + bankAccountNumber + '\'' +
+                ", linkedStatusIsValid=" + linkedStatusIsValid +
+                ", aggregateIdentifier='" + aggregateIdentifier + '\'' +
+                '}';
     }
 }
