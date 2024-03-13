@@ -10,7 +10,7 @@ ext {
 }
 
 group 'com.msapay.payment'
-version '1.0.3'
+version '1.0.0'
 sourceCompatibility = '17'
 
 configurations {
@@ -43,8 +43,8 @@ dependencies {
     implementation 'org.jetbrains:annotations:24.0.1'
     implementation project(path: ':common')
 
-    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
-    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
+//    implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
+//    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
 
 
     testImplementation 'junit:junit:4.13.1'
