@@ -23,8 +23,8 @@ public class ModifyMembershipController {
                 .name(request.getName())
                 .address(request.getAddress())
                 .email(request.getEmail())
-                .isValid(request.getIsValid())
-                .isCorp(request.getIsCorp())
+                .isValid(request.isValid())
+                .isCorp(request.isCorp())
                 .build();
 
         return ResponseEntity.ok(modifyMembershipUsecase.modifyMembership(command));

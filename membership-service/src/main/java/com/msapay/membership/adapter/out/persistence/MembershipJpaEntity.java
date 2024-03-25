@@ -24,11 +24,11 @@ public class MembershipJpaEntity {
 
     private String email;
 
-    private Boolean isValid;
+    private boolean isValid;
 
-    private Boolean isCorp;
+    private boolean isCorp;
 
-    public MembershipJpaEntity(String name, String address, String email, Boolean isValid, Boolean isCorp) {
+    public MembershipJpaEntity(String name, String address, String email, boolean isValid, boolean isCorp) {
         this.name = name;
         this.address = address;
         this.email = email;

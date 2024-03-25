@@ -2,16 +2,16 @@ package com.msapay.money.adapter.in.web;
 
 
 import com.msapay.common.WebAdapter;
-import com.msapay.money.application.port.in.CreateMemberMoneyCommand;
-import com.msapay.money.application.port.in.CreateMemberMoneyUseCase;
-import com.msapay.money.application.port.in.IncreaseMoneyRequestCommand;
-import com.msapay.money.application.port.in.IncreaseMoneyRequestUseCase;
+import com.msapay.money.application.port.in.*;
+import com.msapay.money.domain.MemberMoney;
 import com.msapay.money.domain.MoneyChangingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @WebAdapter
 @RestController
@@ -59,15 +59,26 @@ public class RequestMoneyChangingController {
         return resultDetail;
     }
 
+    @PostMapping(path = "/money/decrease-eda")
+    MoneyChangingResultDetail decreaseMoneyChangingRequest(@RequestBody DecreaseMoneyChangingRequest request) {
+        IncreaseMoneyRequestCommand command = IncreaseMoneyRequestCommand.builder()
+                .targetMembershipId(request.getTargetMembershipId())
+                .amount(request.getAmount() * -1)
+                .build();
 
-//    @PostMapping(path = "/money/decrease")
-//    MoneyChangingResultDetail decreaseMoney(@RequestBody DecreaseMoneyChangingRequest request){
-////
-////        return increaseMoneyRequestUseCase.;
-//
-//        return null;
-//    }
+        increaseMoneyRequestUseCase.increaseMoneyRequestByEvent(command);
+        return null;
+    }
 
+
+    @PostMapping(path = "/money/member-money")
+    List<MemberMoney> findMemberMoneyListByMembershipIds(@RequestBody FindMemberMoneyListByMembershipIdsRequest request) {
+        FindMemberMoneyListByMembershipIdsCommand command = FindMemberMoneyListByMembershipIdsCommand.builder()
+                .membershipIds(request.getMembershipIds())
+                .build();
+
+        return increaseMoneyRequestUseCase.findMemberMoneyListByMembershipIds(command);
+    }
     @PostMapping(path = "/money/create-member-money")
     void createMemberMoney (@RequestBody CreateMemberMoneyRequest request) {
         createMemberMoneyUseCase.createMemberMoney(

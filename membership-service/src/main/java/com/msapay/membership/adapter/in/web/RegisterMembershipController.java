@@ -23,7 +23,7 @@ public class RegisterMembershipController {
                 .email(request.getEmail())
                 .address(request.getAddress())
                 .isValid(true)
-                .isCorp(request.getIsCorp())
+                .isCorp(request.isCorp())
                 .build();
 
         return registerMembershipUseCase.registerMembership(command);

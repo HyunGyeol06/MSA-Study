@@ -30,11 +30,11 @@ public class ModifyMembershipCommand extends SelfValidating<RegisterMembershipCo
 
 
     @AssertTrue
-    private final Boolean isValid;
+    private final boolean isValid;
 
-    private final Boolean isCorp;
+    private final boolean isCorp;
 
-    public ModifyMembershipCommand(String membershipId, String name, String email, String address, Boolean isValid, Boolean isCorp) {
+    public ModifyMembershipCommand(String membershipId, String name, String email, String address, boolean isValid, boolean isCorp) {
         this.membershipId = membershipId;
         this.name = name;
         this.email = email;

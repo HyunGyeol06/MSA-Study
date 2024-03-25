@@ -18,8 +18,8 @@ public class Membership {
 
     private String address;
 
-    private Boolean isValid;
+    private boolean isValid;
 
-    private Boolean isCorp;
+    private boolean isCorp;
 }
 

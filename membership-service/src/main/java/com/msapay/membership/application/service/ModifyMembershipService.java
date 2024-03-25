@@ -24,8 +24,8 @@ public class ModifyMembershipService implements ModifyMembershipUseCase {
                 new Membership.MembershipName(command.getName()),
                 new Membership.MembershipEmail(command.getEmail()),
                 new Membership.MembershipAddress(command.getAddress()),
-                new Membership.MembershipIsValid(command.getIsValid()),
-                new Membership.MembershipIsCorp(command.getIsCorp())
+                new Membership.MembershipIsValid(command.isValid()),
+                new Membership.MembershipIsCorp(command.isCorp())
         );
         return membershipMapper.mapToDomainEntity(jpaEntity);
     }

@@ -16,7 +16,7 @@ public class ModifyMembershipRequest {
 
     private String email;
 
-    private Boolean isValid;
+    private boolean isValid;
 
-    private Boolean isCorp;
+    private boolean isCorp;
 }

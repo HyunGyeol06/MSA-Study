@@ -5,20 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Value;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Membership {
 
-    @Getter private final String membershipId;
+    private final String membershipId;
 
-    @Getter private final String name;
+    private final String name;
 
-    @Getter private final String email;
+    private final String email;
 
-    @Getter private final String address;
+    private final String address;
 
-    @Getter  private final Boolean isValid;
+    private final boolean isValid;
 
-    @Getter private final Boolean isCorp;
+    private final boolean isCorp;
 
 
     public static Membership generateMember(

@@ -1,11 +1,11 @@
-package com.msapay.money;
+package com.msapay.aggregation.serviece;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MoneyApplication {
+public class MoneyAggregationApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MoneyApplication.class);
+        SpringApplication.run(MoneyAggregationApplication.class);
     }
 }

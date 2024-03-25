@@ -7,6 +7,8 @@ import com.msapay.membership.domain.Membership;
 import com.msapay.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class MembershipPersistenceAdapter implements RegisterMembershipPort, FindMembershipPort, ModifyMembershipPort {
@@ -37,10 +39,18 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Fin
         entity.setName(membershipName.getNameValue());
         entity.setAddress(membershipAddress.getMembershipAddress());
         entity.setEmail(membershipEmail.getMembershipEmail());
-        entity.setIsValid(membershipIsValid.getMembershipValidValue());
-        entity.setIsCorp(membershipIsCorp.getMembershipCorpValue());
+        entity.setValid(membershipIsValid.getMembershipValidValue());
+        entity.setCorp(membershipIsCorp.getMembershipCorpValue());
 
 
         return membershipRepository.save(entity);
     }
+
+    @Override
+    public List<MembershipJpaEntity> findMembershipListByAddress(Membership.MembershipAddress membershipAddress) {
+        // 관악구, 서초구, 강남구 중 하나
+        String address = membershipAddress.getMembershipAddress();
+        return membershipRepository.findByAddress(address);
+    }
+
 }

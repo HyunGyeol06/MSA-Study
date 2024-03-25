@@ -40,12 +40,11 @@ public class RegisteredBankAccountAggregate {
     public void handle(@NotNull CheckRegisteredBankAccountCommand command, RequestBankAccountInfoPort bankAccountInfoPort) {
         System.out.println("CheckRegisteredBankAccountCommand Handler");
 
-        // command 를 통해, 이 어그리거트(RegisteredBankAccount) 가 정상인지를 확인해야해요.
         id = command.getAggregateIdentifier();
 
         // Check! Registerd Bank Account
         BankAccount account = bankAccountInfoPort.getBankAccountInfo(new GetBankAccountRequest(command.getBankName(), command.getBankAccountNumber()));
-        boolean isValidAccount = account.getIsValid();
+        boolean isValidAccount = account.isValid();
 
         String firmbankingUUID = UUID.randomUUID().toString();
 

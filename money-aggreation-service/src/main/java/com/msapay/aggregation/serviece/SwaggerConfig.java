@@ -1,4 +1,4 @@
-package com.msapay.money;
+package com.msapay.aggregation.serviece;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

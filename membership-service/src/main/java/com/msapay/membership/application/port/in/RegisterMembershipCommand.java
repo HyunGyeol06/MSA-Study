@@ -26,11 +26,11 @@ public class RegisterMembershipCommand extends SelfValidating<RegisterMembership
 
 
     @AssertTrue
-    private final Boolean isValid;
+    private final boolean isValid;
 
-    private final Boolean isCorp;
+    private final boolean isCorp;
 
-    public RegisterMembershipCommand(String name, String email, String address, Boolean isValid, Boolean isCorp) {
+    public RegisterMembershipCommand(String name, String email, String address, boolean isValid, boolean isCorp) {
         this.name = name;
         this.email = email;
         this.address = address;

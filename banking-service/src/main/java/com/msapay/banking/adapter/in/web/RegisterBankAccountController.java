@@ -22,7 +22,7 @@ public class RegisterBankAccountController {
                 .membershipId(request.getMembershipId())
                 .bankName(request.getBankName())
                 .bankAccountNumber(request.getBankAccountNumber())
-                .isValid(request.getIsValid())
+                .isValid(request.isValid())
                 .build();
 
         RegisteredBankAccount registeredBankAccount =
@@ -41,7 +41,7 @@ public class RegisterBankAccountController {
                 .membershipId(request.getMembershipId())
                 .bankName(request.getBankName())
                 .bankAccountNumber(request.getBankAccountNumber())
-                .isValid(request.getIsValid())
+                .isValid(request.isValid())
                 .build();
 
         registerBankAccountUseCase.registerBankAccountByEvent(command);

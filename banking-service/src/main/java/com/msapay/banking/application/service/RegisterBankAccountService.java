@@ -39,7 +39,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase, G
         }
 
         BankAccount accountInfo = requestBankAccountInfoPort.getBankAccountInfo(new GetBankAccountRequest(command.getBankName(), command.getBankAccountNumber()));
-        boolean accountIsValid =  accountInfo.getIsValid();
+        boolean accountIsValid =  accountInfo.isValid();
 
         if(accountIsValid) {
             // 등록 정보 저장
@@ -47,7 +47,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase, G
                     new RegisteredBankAccount.MembershipId(command.getMembershipId()+""),
                     new RegisteredBankAccount.BankName(command.getBankName()),
                     new RegisteredBankAccount.BankAccountNumber(command.getBankAccountNumber()),
-                    new RegisteredBankAccount.LinkedStatusIsValid(command.getIsValid()),
+                    new RegisteredBankAccount.LinkedStatusIsValid(command.isValid()),
                     new RegisteredBankAccount.AggregateIdentifier(""));
 
             return registeredBankAccountMapper.mapToDomainEntity(savedAccountInfo);
@@ -71,7 +71,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase, G
                                         new RegisteredBankAccount.MembershipId(command.getMembershipId()+""),
                                         new RegisteredBankAccount.BankName(command.getBankName()),
                                         new RegisteredBankAccount.BankAccountNumber(command.getBankAccountNumber()),
-                                        new RegisteredBankAccount.LinkedStatusIsValid(command.getIsValid()),
+                                        new RegisteredBankAccount.LinkedStatusIsValid(command.isValid()),
                                         new RegisteredBankAccount.AggregateIdentifier(result.toString()));
                             }
                         }
